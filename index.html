@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Barcode Scanner</title>
-  <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 20px; }
-    #reader { width: 320px; margin: auto; }
-    #result { font-size: 24px; margin-top: 20px; }
-  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barcode Scanner</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+
+<style>
+body { font-family: Arial; text-align: center; }
+#reader { width: 320px; margin: auto; }
+#result { font-size: 24px; margin-top: 20px; }
+</style>
 </head>
 <body>
 
@@ -17,20 +19,24 @@
 <div id="result">Waiting for scan...</div>
 
 <script>
-function onScanSuccess(decodedText) {
-  document.getElementById("result").innerText =
-    "Scanned: " + decodedText;
-}
+const scanner = new Html5Qrcode("reader");
 
-new Html5QrcodeScanner("reader", {
-  fps: 10,
-  qrbox: 250,
-  formatsToSupport: [
-    Html5QrcodeSupportedFormats.CODE_128,
-    Html5QrcodeSupportedFormats.UPC_A,
-    Html5QrcodeSupportedFormats.EAN_13
-  ]
-}).render(onScanSuccess);
+scanner.start(
+  { facingMode: "environment" },
+  {
+    fps: 10,
+    qrbox: { width: 280, height: 120 },
+    formatsToSupport: [
+      Html5QrcodeSupportedFormats.CODE_128,
+      Html5QrcodeSupportedFormats.UPC_A,
+      Html5QrcodeSupportedFormats.EAN_13
+    ]
+  },
+  (decodedText) => {
+    document.getElementById("result").innerText =
+      "Scanned: " + decodedText;
+  }
+);
 </script>
 
 </body>
