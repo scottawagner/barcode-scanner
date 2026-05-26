@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barcode Scanner</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; }
+    #reader { width: 320px; margin: auto; }
+    #result { font-size: 24px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Barcode Scanner</h2>
+<div id="reader"></div>
+<div id="result">Waiting for scan...</div>
+
+<script>
+function onScanSuccess(decodedText) {
+  document.getElementById("result").innerText =
+    "Scanned: " + decodedText;
+}
+
+new Html5QrcodeScanner("reader", {
+  fps: 10,
+  qrbox: 250,
+  formatsToSupport: [
+    Html5QrcodeSupportedFormats.CODE_128,
+    Html5QrcodeSupportedFormats.UPC_A,
+    Html5QrcodeSupportedFormats.EAN_13
+  ]
+}).render(onScanSuccess);
+</script>
+
+</body>
+</html>
